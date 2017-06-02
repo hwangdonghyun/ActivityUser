@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private final static int MYREQCODE = 1234;
@@ -35,11 +36,20 @@ public class MainActivity extends AppCompatActivity {
                 request = getString(R.string.request_3_text);
                 break;
         }
-        Intent intent = new Intent();
+        /*Intent intent = new Intent();
         intent.setClassName("jp.ac.titech.itpro.sdl.activityprovider",
                 "jp.ac.titech.itpro.sdl.activityprovider.PublicActivity");
         intent.putExtra("request", request);
-        startActivityForResult(intent, MYREQCODE);
+        startActivityForResult(intent, MYREQCODE);*/
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra("request", request);
+        intent.setType("text/plane");
+
+        if (intent.resolveActivity(getPackageManager()) != null)
+            startActivityForResult(intent, MYREQCODE);
+        else
+            Toast.makeText(this, "No program was selected", Toast.LENGTH_SHORT).show();
     }
 
     @Override
